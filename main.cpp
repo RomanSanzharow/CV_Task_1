@@ -3,13 +3,13 @@ using namespace std;
 
 const int n = 4;
 double A[n][n] = {10, 6, 2, 0,
-                  5, 1, -2, 4,
-                  3, 5, 1, -1,
-                  0, 6, -2, 2};
+		  5, 1, -2, 4,
+		  3, 5, 1, -1,
+		  0, 6, -2, 2};
 double B[n] = {25,
-               14,
-               10,
-               8};
+	       14,
+	       10,
+	       8};
 double L[n][n] = {};
 double U[n][n] = {};
 
@@ -33,7 +33,7 @@ void LU(double (&A)[n][n]){
 	}
 }
 
-void Modification(double (&A)[n][n], double (&B)[n]){
+void Modif(double (&A)[n][n], double (&B)[n]){
 	for (int i = 0; i < n; i++){
 		T2[i] = B[i];
 		for (int j = 0; j < n; j++){
@@ -42,29 +42,29 @@ void Modification(double (&A)[n][n], double (&B)[n]){
 	}
 
 	for (int j = 0; j < n - 1; j++){
-		double imax = T1[j][j];
+		double imax = A[j][j];
 		int nmax = j;
 		for (int i = 0; i < n; i++){
-			if (T1[i][j] > imax) nmax = i;
+			if (A[i][j] > imax) nmax = i;
 		}
 
 		double temp[n] = {};
 		double btemp;
 
 		for (int k = 0; k < n; k++){
-			temp[k] = T1[nmax][k];
+			temp[k] = A[nmax][k];
 		}
-		btemp = T2[nmax];
+		btemp = B[nmax];
 
 		for (int k = 0; k < n; k++){
-			T1[nmax][k] = T1[j][k];
+			A[nmax][k] = A[j][k];
 		}
-		T2[nmax] = T2[j];
+		B[nmax] = B[j];
 
 		for (int k = 0; k < n; k++){
-			T1[j][k] = temp[k];
+			A[j][k] = temp[k];
 		}
-		T2[j] = btemp;
+		B[j] = btemp;
 	}
 }
 
@@ -166,7 +166,10 @@ void main(){
 	cout << "Исходная система уравнений" << endl;
 	cout << "[A] * [x] = [B]" << endl;
 	BiShow(A, B);
-	cout << "Представим в виде: [L] * [U] * [x] = [B]" << endl;
+	cout << "На всякий случай модифицируем матрицу А так, чтобы на диагонали не было нулей:" << endl;
+	Modif(A, B);
+	BiShow(A, B);
+	cout << "Представим систему в виде: [L] * [U] * [x] = [B]" << endl;
 	LU(A);
 	cout << "Для этого найдем матрицу L:" << endl;
 	Show(L);
